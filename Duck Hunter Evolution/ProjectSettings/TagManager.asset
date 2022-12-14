@@ -8,6 +8,11 @@ TagManager:
   - BigPoi
   - SmallPoi
   - Pattern
+  - FxTemporaire
+  - Duck
+  - Tree
+  - Rock
+  - Ground
   layers:
   - Default
   - TransparentFX

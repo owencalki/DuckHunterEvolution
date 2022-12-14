@@ -5,12 +5,9 @@ using UnityEngine;
 public class EnviromentGen : MonoBehaviour
 {
     public List <GameObject> poi;
-    public GameObject target;
-    public GameObject spawner;
     
     [Range(0,1000)]
     public int poiNum;
-    public int targetNum;
     [Range(0, 500)]
     public float bigPoiDistance = 150f;
     [Range(0, 100)]
@@ -44,7 +41,7 @@ public class EnviromentGen : MonoBehaviour
             if (Vector3.Distance(gameObject.transform.position, newPoi.transform.position) < smallPoiDistance && newPoi.CompareTag("SmallPoi")) { Destroy(newPoi); }
             if(xSpot<-10 &&xSpot>-60)
             {
-                if(zSpot<30 && zSpot>-30 && newPoi.CompareTag("BigPoi"))
+                if(zSpot<30 && zSpot>-30)
                 {
                     Destroy(newPoi);
                 }

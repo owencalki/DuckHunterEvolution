@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class Duck : MonoBehaviour
 {
-    public Animator animator;
-    public Rigidbody[] rbs;
     GameObject pattern;
     List <Transform> targets;
     public float speed = 0.5f;
     public float rotSpeed = 3f;
+    bool alive = true;
+    Rigidbody[] rbs;
+    public ParticleSystem blood;
+    public float randomness = 2;
 
 
     void Start()
     {
+        rbs = gameObject.GetComponents<Rigidbody>();
+        foreach (Rigidbody rb in rbs)
+        {
+            rb.isKinematic = true;
+        }
+
         speed = speed * Random.Range(0.8f,1.2f);
 
         pattern = GameObject.FindGameObjectWithTag("Pattern");
@@ -22,26 +30,47 @@ public class Duck : MonoBehaviour
 
     void Update()
     {
-
-        Transform nearestTarget = NearestTarget(targets);
-        if (targets.Count > 1) //If more than one target is avalible moves to the one given as the nearest.
+        if (alive == true)
         {
-            transform.position = transform.position + transform.forward * speed*Time.deltaTime;
-            if (Vector3.Distance(transform.position, nearestTarget.position) < 0.5)
+            Transform nearestTarget = NearestTarget(targets);
+
+            float randX = Random.Range(-randomness, randomness);
+            float randY = Random.Range(-randomness, randomness);
+            float randZ = Random.Range(-randomness, randomness);
+            Vector3 randomizedTargetPos = new Vector3(nearestTarget.position.x + randX, nearestTarget.position.y + randY, nearestTarget.position.z + randZ);
+
+
+            if (targets.Count > 1) //If more than one target is avalible moves to the one given as the nearest.
             {
-                targets.Remove(NearestTarget(targets));
+                transform.position = transform.position + transform.forward * speed * Time.deltaTime;
+                if (Vector3.Distance(transform.position, randomizedTargetPos) < 1f)
+                {
+                    targets.Remove(NearestTarget(targets));
+                }
+            }
+            else if (targets.Count == 0) //If the duck has run out of targets it will destroy itself
+            {
+                Destroy(gameObject);
+            }
+            
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(randomizedTargetPos - transform.position), Time.deltaTime * rotSpeed);
+        }
+        else
+        {
+            foreach (Rigidbody rb in rbs)
+            {
+                rb.isKinematic = false;
             }
         }
-        else if(targets.Count==0) //If the duck has run out of targets it will destroy itself
-        {
-            Destroy(gameObject);
-        }
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(nearestTarget.position - transform.position), Time.deltaTime * rotSpeed);
     }
    
-    public void Shot()
+    public void Death()
     {
-
+        gameObject.GetComponent<Outline>().OutlineMode = Outline.Mode.OutlineHidden;
+        Destroy(gameObject.GetComponent<Animator>());
+        alive = false;
+        blood.Play();
+        Destroy(gameObject,2);
     }
 
     Transform NearestTarget(List<Transform> targets)

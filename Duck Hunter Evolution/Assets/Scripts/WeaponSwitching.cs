@@ -14,6 +14,10 @@ public class WeaponSwitching : MonoBehaviour
     public LayerMask mask;
     public Image crosshair;
 
+    public ParticleSystem tree;
+    public ParticleSystem ground;
+    public ParticleSystem rock;
+
 
     void Start()
     {
@@ -85,8 +89,28 @@ public class WeaponSwitching : MonoBehaviour
         {
             foreach (RaycastHit objecthit in hit)
             {
-                Debug.Log(objecthit.collider.name);
-                objecthit.collider.gameObject.GetComponent<Hit>().Shot(guns[selectedWeapon].damage);
+                if(objecthit.collider.CompareTag("Duck"))
+                objecthit.collider.gameObject.GetComponent<Duck>().Death();
+
+                if(objecthit.collider.CompareTag("Ground"))
+                {
+                    Vector3 norm = objecthit.transform.forward;
+                    Instantiate(ground, objecthit.point, Quaternion.LookRotation(Vector3.forward,norm));
+                }
+
+                if (objecthit.collider.CompareTag("Tree"))
+                {
+                    Vector3 norm = objecthit.transform.forward;
+                    Instantiate(tree, objecthit.point, Quaternion.LookRotation(Vector3.forward, norm));
+
+                }
+
+                if (objecthit.collider.CompareTag("Rock"))
+                {
+                    Vector3 norm = objecthit.transform.forward;
+                    Instantiate(rock, objecthit.point, Quaternion.LookRotation(Vector3.forward, norm));
+
+                }
             }
         }
     }

@@ -4,10 +4,71 @@ using UnityEngine;
 
 public class DuckSpawner : MonoBehaviour
 {
-    void Update()
+    public GameObject duck;
+    float nextWaveTimer;
+    float timeBetweenWaves = 5;
+    int wavesPerRound = 0;
+    int ducksPerSpawn;
+    int roundIndex = 1;
+    bool activeRound = false;
+
+    public AnimationCurve wavesPerRoundCurve;
+    public AnimationCurve ducksPerSpawnCurve;
+    public AnimationCurve timeBetweenWavesCurve;
+
+
+
+    Vector3 startPos = new Vector3(-140,5,-70);
+
+    
+
+    private void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            RoundStart(roundIndex);
+        }
+
+
+
+
+        nextWaveTimer -= Time.deltaTime;
+        if(nextWaveTimer<=0 && wavesPerRound>0)
+        {
+            wavesPerRound -= 1;
+            nextWaveTimer = timeBetweenWaves;
+            SpawnWave(ducksPerSpawn);
+        }
+        else if (wavesPerRound<=0 && GameObject.FindGameObjectWithTag("Duck")==null && activeRound==true)
+        {
+            Debug.Log("ROUND OVER");
+            activeRound = false;
+        }
+
+    }
+
+    
+
+    void SpawnWave(int numberOfDucks)
+    {
+        for (int i = 0; i < numberOfDucks; i++)
+        {
+            Instantiate(duck, startPos, Quaternion.identity);
+        }
+    }
+
+    void RoundStart(int round)
+    {
+        Debug.Log("ROUND STARTED");
+        activeRound = true;
+
+        roundIndex++;
+
+        wavesPerRound = Mathf.RoundToInt(wavesPerRoundCurve.Evaluate(round));
+        ducksPerSpawn = Mathf.RoundToInt(ducksPerSpawnCurve.Evaluate(round));
+        timeBetweenWaves = timeBetweenWavesCurve.Evaluate(round);
 
 
     }
+     
 }
