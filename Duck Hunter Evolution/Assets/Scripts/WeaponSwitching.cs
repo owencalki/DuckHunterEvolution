@@ -17,6 +17,8 @@ public class WeaponSwitching : MonoBehaviour
     public ParticleSystem tree;
     public ParticleSystem ground;
     public ParticleSystem rock;
+    public ParticleSystem water;
+
 
 
     void Start()
@@ -109,6 +111,14 @@ public class WeaponSwitching : MonoBehaviour
                 {
                     Vector3 norm = objecthit.transform.forward;
                     Instantiate(rock, objecthit.point, Quaternion.LookRotation(Vector3.forward, norm));
+
+                }
+
+                if (objecthit.collider.CompareTag("Water"))
+                {
+                    Vector3 norm = objecthit.transform.forward;
+                    Instantiate(water, objecthit.point, Quaternion.LookRotation(Vector3.forward, norm));
+                    Debug.Log("water");
 
                 }
             }

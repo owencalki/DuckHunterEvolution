@@ -13,6 +13,7 @@ TagManager:
   - Tree
   - Rock
   - Ground
+  - Water
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - UI
   - Shootable
   - Ground
-  - 
+  - Guns
   - 
   - 
   - 

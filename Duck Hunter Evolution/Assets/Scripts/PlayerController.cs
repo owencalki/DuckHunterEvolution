@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public string activeGun;
     AudioManager audioManager;
+    public Rigidbody rb;
 
 
     void Start()
@@ -23,13 +24,14 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void Update()
+    void FixedUpdate()
     {
         //WASD Movement ---------------------------------------------------------------------------------------------------------------
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        transform.position = transform.position + transform.forward * v * speed * Time.deltaTime + transform.right * h * speed * Time.deltaTime;
+        Vector3 move = transform.right * h + transform.forward * v;
+        rb.MovePosition(transform.position + move * speed * Time.deltaTime);
         //--------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -39,11 +41,10 @@ public class PlayerController : MonoBehaviour
 
         xRot += mouseY;
         yRot += mouseX;
-        xRot = Mathf.Clamp(xRot, -60, 70);
+        xRot = Mathf.Clamp(xRot, -85, 85);
 
-
-        character.transform.localRotation = Quaternion.Euler(-xRot, 0f, 0f);
-        transform.localRotation = Quaternion.Euler(0f, yRot, 0f);
+        character.transform.localRotation = Quaternion.Euler(-xRot, 0, 0);
+        transform.rotation = Quaternion.Euler(0, yRot, 0);
         //--------------------------------------------------------------------------------------------------------------------------------
 
 

@@ -30,7 +30,7 @@ public class EnviromentGen : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 100, LayerMask.GetMask("Ground")))
             {
-                ySpot = hit.point.y;
+                ySpot = hit.point.y-0.2f;
             }
 
 
@@ -46,6 +46,9 @@ public class EnviromentGen : MonoBehaviour
                     Destroy(newPoi);
                 }
             }
+
+            newPoi.transform.parent = GameObject.Find("World").transform;
+
         }
         //-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
