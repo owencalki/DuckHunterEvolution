@@ -11,6 +11,8 @@ public class DuckSpawner : MonoBehaviour
     int ducksPerSpawn;
     int roundIndex = 1;
     bool activeRound = false;
+    float timeBetweenRounds = 15;
+    float roundEndTime = 0;
 
     public AnimationCurve wavesPerRoundCurve;
     public AnimationCurve ducksPerSpawnCurve;
@@ -24,7 +26,7 @@ public class DuckSpawner : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
+        if(Time.time-roundEndTime>timeBetweenRounds && activeRound==false)
         {
             StartCoroutine(gameObject.GetComponent<UIManager>().DisplayTitleText("Round " + roundIndex + " Started", 2));
             RoundStart(roundIndex);
@@ -43,6 +45,7 @@ public class DuckSpawner : MonoBehaviour
         else if (wavesPerRound<=0 && GameObject.FindGameObjectWithTag("Duck")==null && activeRound==true)
         {
             StartCoroutine(gameObject.GetComponent<UIManager>().DisplayTitleText("Round Over", 1.5f));
+            roundEndTime = Time.time;
             activeRound = false;
         }
 
@@ -60,7 +63,6 @@ public class DuckSpawner : MonoBehaviour
 
     void RoundStart(int round)
     {
-        Debug.Log("ROUND STARTED");
         activeRound = true;
 
         roundIndex++;

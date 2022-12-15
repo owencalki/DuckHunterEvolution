@@ -12,10 +12,12 @@ public class Duck : MonoBehaviour
     Rigidbody[] rbs;
     public ParticleSystem blood;
     public float randomness = 2;
-
+    public UIManager UImanager;
 
     void Start()
     {
+        UImanager = GameObject.Find("GameManager").GetComponent<UIManager>();
+
         rbs = gameObject.GetComponents<Rigidbody>();
         foreach (Rigidbody rb in rbs)
         {
@@ -76,6 +78,8 @@ public class Duck : MonoBehaviour
             mesh.enabled = false;
         }
         Destroy(gameObject,2f);
+
+        UImanager.AddMoney(10);
     }
 
     Transform NearestTarget(List<Transform> targets)

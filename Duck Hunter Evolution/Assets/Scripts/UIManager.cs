@@ -16,13 +16,22 @@ public class UIManager : MonoBehaviour
     public Camera cam;
     public LayerMask mask;
     public List<GunCreator> possibleGuns;
-    GunCreator hoveredGun;
+    public GunCreator hoveredGun;
+    public List<GunCreator> purchasedGuns;
 
     public CanvasGroup descriptionCanvas;
     public TMPro.TextMeshProUGUI descriptionText;
+    public TMPro.TextMeshProUGUI pickupText;
+    public TMPro.TextMeshProUGUI moneyText;
+
     GameObject lastSeen;
 
+    public AudioManager audioManager;
 
+    private void Start()
+    {
+        moneyText.text = "$" + money;
+    }
 
 
     void Update()
@@ -43,6 +52,11 @@ public class UIManager : MonoBehaviour
             {
                 if(gun.name == hit.collider.name)
                 {
+                    if (lastSeen != hit.collider.gameObject)
+                    {
+                        audioManager.Play("Menu Click",0f);
+                    }
+
                     hoveredGun = gun;
 
                     lastSeen = hit.collider.gameObject;
@@ -51,6 +65,7 @@ public class UIManager : MonoBehaviour
                 }
             }
             DisplayItemDescription(hoveredGun);
+            
         }
         else
         {
@@ -58,6 +73,7 @@ public class UIManager : MonoBehaviour
             if(lastSeen!=null)
             {
                 lastSeen.GetComponent<Outline>().OutlineColor = Color.clear;
+                lastSeen = null;
             }
         }
 
@@ -79,23 +95,66 @@ public class UIManager : MonoBehaviour
         fadeOut = false;
     }
 
-    private void OnMouseOver()
-    {
-        
-    }
-
+    string costString;
+    public bool purchased;
     void DisplayItemDescription(GunCreator hoveredGun)
     {
+        foreach (GunCreator gun in purchasedGuns)
+        {
+            if (hoveredGun.name == gun.name)
+            {
+                purchased = true;
+                costString = "";
+                pickupText.text = "F to Swap";
+                break;
+            }
+            else
+            {
+                purchased = false;
+                costString = "\nCost: $" + hoveredGun.cost;
+                pickupText.text = "F to Purchase";
+            }
+        }
+
+
+
         descriptionText.text = 
             
             "Name: " + hoveredGun.name +
             "\nAmmo: " + hoveredGun.ammoCount + 
             "\nBullet Spread: " + hoveredGun.bulletSpread +
             "\nRange: " + hoveredGun.range +
-            "\nDamage: " + hoveredGun.damage;
+            costString;
 
 
 
         descriptionCanvas.alpha = 1;
     }
+    public int money;
+    public void AddMoney(int moneyAdded)
+    {
+        money += moneyAdded;
+        moneyText.text = "$"+money;
+    }
+    public bool UseMoney(int cost)
+    {
+
+        if(purchased==true)
+        {
+            return true;
+        }
+        else if(money-cost>0)
+        {
+            purchasedGuns.Add(hoveredGun);
+            money -= cost;
+            moneyText.text = "$" + money;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
 }

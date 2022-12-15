@@ -19,6 +19,8 @@ public class WeaponSwitching : MonoBehaviour
     public ParticleSystem rock;
     public ParticleSystem water;
 
+    public UIManager UImanager;
+
 
 
     void Start()
@@ -29,18 +31,16 @@ public class WeaponSwitching : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.RightArrow))
+        if(Input.GetKeyDown(KeyCode.F))
         {
-            selectedWeapon++;
-            SelectedWeapon();
+            if (UImanager.UseMoney(UImanager.hoveredGun.cost) == true)
+            {
+                selectedWeapon = UImanager.hoveredGun.selectedWeaponNum;
+                SelectedWeapon();
+            }
 
         }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            selectedWeapon--;
-            SelectedWeapon();
-
-        }
+        
     }
 
     void SelectedWeapon()
@@ -91,9 +91,10 @@ public class WeaponSwitching : MonoBehaviour
         {
             foreach (RaycastHit objecthit in hit)
             {
-                if(objecthit.collider.CompareTag("Duck"))
-                objecthit.collider.gameObject.GetComponent<Duck>().Death();
-
+                if (objecthit.collider.CompareTag("Duck"))
+                {
+                    objecthit.collider.gameObject.GetComponent<Duck>().Death();
+                }
                 if(objecthit.collider.CompareTag("Ground"))
                 {
                     Vector3 norm = objecthit.transform.forward;
@@ -104,22 +105,18 @@ public class WeaponSwitching : MonoBehaviour
                 {
                     Vector3 norm = objecthit.transform.forward;
                     Instantiate(tree, objecthit.point, Quaternion.LookRotation(Vector3.forward, norm));
-
                 }
 
                 if (objecthit.collider.CompareTag("Rock"))
                 {
                     Vector3 norm = objecthit.transform.forward;
                     Instantiate(rock, objecthit.point, Quaternion.LookRotation(Vector3.forward, norm));
-
                 }
 
                 if (objecthit.collider.CompareTag("Water"))
                 {
                     Vector3 norm = objecthit.transform.forward;
                     Instantiate(water, objecthit.point, Quaternion.LookRotation(Vector3.forward, norm));
-                    Debug.Log("water");
-
                 }
             }
         }

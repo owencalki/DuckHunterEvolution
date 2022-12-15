@@ -17,6 +17,6 @@ MonoBehaviour:
   selectedWeaponNum: 1
   bulletSpread: 1
   range: 25
-  damage: 10
+  cost: 100
   crosshairSprite: {fileID: 21300000, guid: ef06b868faa8201458e38ce2381c8bc5, type: 3}
   crosshairScale: {x: 0.3, y: 0.3, z: 0.3}

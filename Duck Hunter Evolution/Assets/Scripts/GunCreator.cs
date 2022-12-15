@@ -11,7 +11,7 @@ public class GunCreator : ScriptableObject
     public int selectedWeaponNum;
     public float bulletSpread;
     public float range;
-    public float damage;
+    public int cost;
     public Sprite crosshairSprite;
     public Vector3 crosshairScale;
 
