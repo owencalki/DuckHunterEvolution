@@ -70,7 +70,12 @@ public class Duck : MonoBehaviour
         Destroy(gameObject.GetComponent<Animator>());
         alive = false;
         blood.Play();
-        Destroy(gameObject,2);
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
+        foreach (MeshRenderer mesh in gameObject.GetComponentsInChildren<MeshRenderer>())
+        {
+            mesh.enabled = false;
+        }
+        Destroy(gameObject,2f);
     }
 
     Transform NearestTarget(List<Transform> targets)

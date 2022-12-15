@@ -19,4 +19,4 @@ MonoBehaviour:
   range: 40
   damage: 10
   crosshairSprite: {fileID: 21300000, guid: ef06b868faa8201458e38ce2381c8bc5, type: 3}
-  crosshairScale: {x: 0.2, y: 0.2, z: 1}
+  crosshairScale: {x: 0.2, y: 0.2, z: 0.2}

@@ -18,7 +18,7 @@ public class DuckSpawner : MonoBehaviour
 
 
 
-    Vector3 startPos = new Vector3(-140,5,-70);
+    Vector3 startPos = new Vector3(-140,0,-100);
 
     
 
@@ -26,6 +26,7 @@ public class DuckSpawner : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Q))
         {
+            StartCoroutine(gameObject.GetComponent<UIManager>().DisplayTitleText("Round " + roundIndex + " Started", 2));
             RoundStart(roundIndex);
         }
 
@@ -41,7 +42,7 @@ public class DuckSpawner : MonoBehaviour
         }
         else if (wavesPerRound<=0 && GameObject.FindGameObjectWithTag("Duck")==null && activeRound==true)
         {
-            Debug.Log("ROUND OVER");
+            StartCoroutine(gameObject.GetComponent<UIManager>().DisplayTitleText("Round Over", 1.5f));
             activeRound = false;
         }
 
