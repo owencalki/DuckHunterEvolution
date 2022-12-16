@@ -502,7 +502,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: $500
+  m_text: $1000
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 081ea2f06519737449b2ba4efb631c5e, type: 2}
   m_sharedMaterial: {fileID: 7430555016940043305, guid: 081ea2f06519737449b2ba4efb631c5e, type: 2}
@@ -529,14 +529,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -565,7 +565,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -91.68359, y: 0, z: -49.625366, w: 25.665308}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1498,7 +1498,6 @@ GameObject:
   - component: {fileID: 912540626}
   - component: {fileID: 912540627}
   - component: {fileID: 912540629}
-  - component: {fileID: 912540630}
   - component: {fileID: 912540628}
   m_Layer: 0
   m_Name: Player
@@ -1692,25 +1691,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 64
-  m_CollisionDetection: 2
---- !u!114 &912540630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 912540622}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 1
-  outlineColor: {r: 0, g: 0, b: 0, a: 1}
-  outlineWidth: 2
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
+  m_CollisionDetection: 1
 --- !u!1 &972789134
 GameObject:
   m_ObjectHideFlags: 0
@@ -8571,7 +8552,7 @@ MonoBehaviour:
   moneyText: {fileID: 161072201}
   audioManager: {fileID: 912540627}
   purchased: 0
-  money: 15
+  money: 0
 --- !u!1 &2083043220
 GameObject:
   m_ObjectHideFlags: 0
@@ -13800,8 +13781,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.16379875, y: 0.16683555, z: 0.0055089863}
-  m_Center: {x: 0.0035246657, y: 0.0023593141, z: 0.016926298}
+  m_Size: {x: 0.16379875, y: 0.16683555, z: 0.0070977365}
+  m_Center: {x: 0.0035246657, y: 0.002359314, z: 0.017720683}
 --- !u!1 &1010197277186943639
 GameObject:
   m_ObjectHideFlags: 0
@@ -15737,8 +15718,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.8150482, y: 5.744354, z: 20.172693}
-  m_Center: {x: -8.464058, y: 1.3295534, z: 0.017752647}
+  m_Size: {x: 1.2720919, y: 5.744354, z: 20.172693}
+  m_Center: {x: -9.1874485, y: 1.3295534, z: 0.017752647}
 --- !u!1 &8688141298651499165
 GameObject:
   m_ObjectHideFlags: 0

@@ -26,12 +26,13 @@ public class WeaponSwitching : MonoBehaviour
     void Start()
     {
         SelectedWeapon();
-
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.F))
+
+        //Pressing F checks for enough money and calls to switch to that gun using SelectedWeapon method
+        if(Input.GetKeyDown(KeyCode.F) && UImanager.hoveredGun!=null)
         {
             if (UImanager.UseMoney(UImanager.hoveredGun.cost) == true)
             {
@@ -40,9 +41,10 @@ public class WeaponSwitching : MonoBehaviour
             }
 
         }
-        
     }
 
+
+    //Finds all transforms that are a child to character and sets them to active if they're order number matches the int selectedWeapon
     void SelectedWeapon()
     {
         int i = 0;
@@ -55,13 +57,14 @@ public class WeaponSwitching : MonoBehaviour
                 flash = weapon.GetComponentInChildren<ParticleSystem>();
                 Ammo = guns[selectedWeapon].ammoCount;
             }
-            else if(weapon.gameObject.CompareTag("weapon"))
+            else if(weapon.gameObject.CompareTag("weapon"))//sets all other transforms tagged with weapon to false
             {
                 weapon.gameObject.SetActive(false);
             }
             i++;
         }
 
+        //changes crosshair to match the guns given crosshair
         crosshair.sprite = guns[selectedWeapon].crosshairSprite;
         crosshair.transform.localScale = guns[selectedWeapon].crosshairScale;
 
@@ -70,7 +73,6 @@ public class WeaponSwitching : MonoBehaviour
     public void MuzzleFlash()
     {
         flash.Play();
-
     }
 
     public void TakeAmmo(int amount)
@@ -84,7 +86,7 @@ public class WeaponSwitching : MonoBehaviour
         gameObject.GetComponent<PlayerController>().animator.SetBool("hasAmmo",true);
     }
 
-    public void Shoot()
+    public void Shoot()//casts and ray and determines the objects hit. Then calls many things depending on the object.
     {
         RaycastHit[] hit = Physics.SphereCastAll(cam.transform.position, guns[selectedWeapon].bulletSpread, cam.transform.forward, guns[selectedWeapon].range,mask);
         if(hit.Length>0)
@@ -95,7 +97,9 @@ public class WeaponSwitching : MonoBehaviour
                 {
                     objecthit.collider.gameObject.GetComponent<Duck>().Death();
                 }
-                if(objecthit.collider.CompareTag("Ground"))
+
+                //PARTICLE EFFECTS ONLY-----------------------------------------------------------------------------
+                if (objecthit.collider.CompareTag("Ground"))
                 {
                     Vector3 norm = objecthit.transform.forward;
                     Instantiate(ground, objecthit.point, Quaternion.LookRotation(Vector3.forward,norm));
@@ -118,6 +122,7 @@ public class WeaponSwitching : MonoBehaviour
                     Vector3 norm = objecthit.transform.forward;
                     Instantiate(water, objecthit.point, Quaternion.LookRotation(Vector3.forward, norm));
                 }
+                //--------------------------------------------------------------------------------------------
             }
         }
     }

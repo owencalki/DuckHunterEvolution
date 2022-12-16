@@ -22,17 +22,16 @@ public class PlayerController : MonoBehaviour
         audioManager = gameObject.GetComponent<AudioManager>();
         Cursor.lockState = CursorLockMode.Locked;
     }
-
+    float h;
+    float v;
     void FixedUpdate()
     {
         //WASD Movement ---------------------------------------------------------------------------------------------------------------
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        h = Input.GetAxis("Horizontal");
+        v = Input.GetAxis("Vertical");
 
         Vector3 move = transform.right * h + transform.forward * v;
         rb.MovePosition(transform.position + move * speed * Time.deltaTime);
-        //--------------------------------------------------------------------------------------------------------------------------------
-
 
         //Looking Around ---------------------------------------------------------------------------------------------------------------
         float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
@@ -44,9 +43,12 @@ public class PlayerController : MonoBehaviour
 
         character.transform.localRotation = Quaternion.Euler(-xRot, 0, 0);
         transform.rotation = Quaternion.Euler(0, yRot, 0);
-        //--------------------------------------------------------------------------------------------------------------------------------
+    }
 
-
+    void Update()
+    {
+        
+    
         //Animations ---------------------------------------------------------------------------------------------------------------
         
         if(h!=0 || v!=0)
@@ -58,32 +60,34 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("isMoving", false);
 
         }
-        if (gameObject.GetComponent<WeaponSwitching>().Ammo != 0)
+        //Shooting---------------------------------------------------------------------------------------------
+        if (gameObject.GetComponent<WeaponSwitching>().Ammo > 0)
         {
-            if (Input.GetMouseButton(0) && gameObject.GetComponent<WeaponSwitching>().Ammo > 0)
+            if (Input.GetMouseButtonDown(0) && gameObject.GetComponent<WeaponSwitching>().Ammo > 0)
             {
-                animator.SetTrigger("shoot");
-            }
-            if (Input.GetMouseButtonUp(0))
-            {
-                animator.ResetTrigger("shoot");
+                animator.SetBool("shoot",true);
             }
         }
 
+        if (Input.GetMouseButtonUp(0))
+        {
+            animator.SetBool("shoot",false);
+        }
+
+
+        //Reloading---------------------------------------------------------------------------------------------
         if (Input.GetKeyDown(KeyCode.R))
         {
             animator.SetBool("hasAmmo",false);
         }
 
-        if(gameObject.GetComponent<WeaponSwitching>().Ammo < 0)
+        if(gameObject.GetComponent<WeaponSwitching>().Ammo < 1)
         {
             animator.SetBool("hasAmmo", false);
         }
-
-        
-        //--------------------------------------------------------------------------------------------------------------------------------
-
     }
+
+
     public void PlaySound(string soundName)
     {
         audioManager.Play(soundName, 0);

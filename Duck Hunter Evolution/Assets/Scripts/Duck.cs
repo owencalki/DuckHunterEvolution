@@ -17,6 +17,7 @@ public class Duck : MonoBehaviour
     public AudioManager Amanager;
     bool gameOver = false;
 
+
     void Start()
     {
         UImanager = GameObject.Find("GameManager").GetComponent<UIManager>();
@@ -39,6 +40,7 @@ public class Duck : MonoBehaviour
     {
         if (alive == true)
         {
+            //Adding randomness to the position found by the Nearest Target Method
             Transform nearestTarget = NearestTarget(targets);
 
             float randX = Random.Range(-randomness, randomness);
@@ -60,7 +62,7 @@ public class Duck : MonoBehaviour
                 StartCoroutine(GameOver());
                 gameOver = true;
             }
-            
+            //Rotating duck towards the randomized target location
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(randomizedTargetPos - transform.position), Time.deltaTime * rotSpeed);
         }
         else
@@ -88,6 +90,8 @@ public class Duck : MonoBehaviour
         UImanager.AddMoney(10);
     }
 
+
+    //Given a list of transforms finds the closest one and outputs that transfrom as the nearestTarget
     Transform NearestTarget(List<Transform> targets)
     {
         Transform nearestTarget = null;
@@ -105,7 +109,9 @@ public class Duck : MonoBehaviour
             }
         }
         return nearestTarget;
-    } //Given a list of transforms finds the closest one and outputs that transfrom as the nearestTarget
+    }
+
+
 
     IEnumerator GameOver()
     {
