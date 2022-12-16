@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour
     {
         audioManager = gameObject.GetComponent<AudioManager>();
         Cursor.lockState = CursorLockMode.Locked;
-
     }
 
     void FixedUpdate()

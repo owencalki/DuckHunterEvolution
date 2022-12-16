@@ -87,11 +87,13 @@ public class UIManager : MonoBehaviour
 
         fadeIn = true;
         yield return new WaitForSeconds(displayTime +fadeTime);
+        titleCanvas.alpha = 1;
         fadeIn = false;
 
         startTime = Time.time;
         fadeOut = true;
         yield return new WaitForSeconds(fadeTime);
+        titleCanvas.alpha = 0;
         fadeOut = false;
     }
 

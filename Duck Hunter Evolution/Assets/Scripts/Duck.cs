@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Duck : MonoBehaviour
 {
@@ -13,10 +14,14 @@ public class Duck : MonoBehaviour
     public ParticleSystem blood;
     public float randomness = 2;
     public UIManager UImanager;
+    public AudioManager Amanager;
+    bool gameOver = false;
 
     void Start()
     {
         UImanager = GameObject.Find("GameManager").GetComponent<UIManager>();
+        Amanager = GameObject.Find("Player").GetComponent<AudioManager>();
+
 
         rbs = gameObject.GetComponents<Rigidbody>();
         foreach (Rigidbody rb in rbs)
@@ -50,9 +55,10 @@ public class Duck : MonoBehaviour
                     targets.Remove(NearestTarget(targets));
                 }
             }
-            else if (targets.Count == 0) //If the duck has run out of targets it will destroy itself
+            else if (targets.Count == 1 && gameOver == false) //If the duck has run out of targets it will call end game
             {
-                Destroy(gameObject);
+                StartCoroutine(GameOver());
+                gameOver = true;
             }
             
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(randomizedTargetPos - transform.position), Time.deltaTime * rotSpeed);
@@ -78,7 +84,7 @@ public class Duck : MonoBehaviour
             mesh.enabled = false;
         }
         Destroy(gameObject,2f);
-
+        Amanager.Play("Quack", 0);
         UImanager.AddMoney(10);
     }
 
@@ -100,4 +106,17 @@ public class Duck : MonoBehaviour
         }
         return nearestTarget;
     } //Given a list of transforms finds the closest one and outputs that transfrom as the nearestTarget
+
+    IEnumerator GameOver()
+    {
+        StartCoroutine(GameObject.Find("GameManager").GetComponent<UIManager>().DisplayTitleText("GAME OVER",5));
+        yield return new WaitForSeconds(10);
+        SceneManager.LoadScene(0);
+
+    }
+
+
+
+
+
 }

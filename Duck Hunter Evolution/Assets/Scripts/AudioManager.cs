@@ -7,6 +7,8 @@ public class AudioManager : MonoBehaviour{
 
     public Sound[] sounds;
     public float timeScale;
+    public static float musicMult = 1;
+    public static float gameMult = 1;
 
 
     void Awake()
@@ -24,6 +26,9 @@ public class AudioManager : MonoBehaviour{
 
     private void Start()
     {
+        GameVolume(gameMult);
+        MusicVolume(musicMult);
+
         Play("Music", 0);
 
         StartCoroutine(Birds());
@@ -43,14 +48,29 @@ public class AudioManager : MonoBehaviour{
         if (s == null) { Debug.LogWarning("Sound" + name + "was not found!"); return; }
         s.source.Stop();
     }
-    public void Volume(float volume)
+    public void GameVolume(float volume)
     {
+        gameMult = volume;
+
         foreach (Sound s in sounds)
         {
-            s.source.volume = s.volume * volume;
+            if(s.name!="Music")
+            {
+                s.source.volume = s.volume * gameMult;
+            }
         }
+    }
+    public void MusicVolume(float volume)
+    {
+        musicMult = volume;
 
-
+        foreach (Sound s in sounds)
+        {
+            if(s.name=="Music")
+            {
+                s.source.volume = s.volume * musicMult;
+            }
+        }
     }
 
     IEnumerator Birds ()
